@@ -25,7 +25,7 @@ public class Execute {
 		while((str = br.readLine()) != null) {
 			//search(key)
 			if(str.startsWith("Search") && !str.contains(",")) {
-				int key;
+				Integer key;
 				String str2 = "";
 				for(int i=0;i<str.length();i++) {
 					if(Character.isDigit(str.charAt(i))) {
@@ -41,10 +41,12 @@ public class Execute {
 			
 			//Insert(key, value)
 			else if(str.startsWith("Insert")) {
-				int key;
+				System.out.println("Insert");
+				Integer key;
 				double value;
 				String str3 = str.substring(str.indexOf("(")+1,str.indexOf(",")); 
     			key = Integer.parseInt(str3.trim());
+//    			System.out.println(key);
     			String strVal = str.substring(str.indexOf(",")+1,str.indexOf(")")).trim();
     			value = Double.parseDouble(strVal);
     			tree.insertUpdate(key, value);
@@ -53,19 +55,19 @@ public class Execute {
 			
 			//Delete(key);
 			else if(str.startsWith("Delete")) {
-				
+				System.out.println("Delete");
 				String strDelete = str.substring(str.indexOf("(")+1,str.indexOf(")"));
-				int key = Integer.parseInt(strDelete);
+				Integer key = Integer.parseInt(strDelete);
 				tree.remove(key);
 			}
 			
 			//Search(key1, key2)
 			else {
-				int key1, key2;
+				Integer key1, key2;
 				String str4 = str.substring(str.indexOf("(")+1,str.indexOf(","));
 				String str5 = str.substring(str.indexOf(",")+1,str.indexOf(")"));
-				key1 = Integer.parseInt(str4);
-				key2 = Integer.parseInt(str5);
+				key1 = Integer.parseInt(str4.trim());
+				key2 = Integer.parseInt(str5.trim());
 				List<Object> list = tree.search(key1, key2);
 				System.out.println(list);
 				wr.write(list.toString());

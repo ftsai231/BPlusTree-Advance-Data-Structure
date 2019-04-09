@@ -32,19 +32,19 @@ public class BPlusTree {
 		this.order = order;
 	}
 	
-	public Object search(Comparable key) {
+	public Object search(Integer key) {
 		return root.search(key);
 	}
 	
-	public List<Object> search(Comparable key1, Comparable key2) {
+	public List<Object> search(Integer key1, Integer key2) {
 		return root.search(key1, key2);
 	}
 	
-	public void remove(Comparable key) {
+	public void remove(Integer key) {
 		root.remove(key, this);
 	}
 	
-	public void insertUpdate(Comparable key, Object obj) {
+	public void insertUpdate(Integer key, Double obj) {
 		root.insertUpdate(key, obj, this);
 	}
 	
@@ -57,9 +57,11 @@ public class BPlusTree {
 		root=  new TreeNode(true, true);
 		head = root;
 	}
-	
-	
-	
-	
-	
 }
+
+
+
+
+
+
+

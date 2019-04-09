@@ -8,7 +8,7 @@ public class TreeNode {
 	public TreeNode parent;
 	public TreeNode prev;
 	public TreeNode next;
-	public List<Entry<Comparable, Object>> entries;
+	public List<Entry<Integer, Double>> entries;
 	public List<TreeNode> children;
 	
 	public TreeNode(boolean isLeaf) {
@@ -20,13 +20,13 @@ public class TreeNode {
 	}
 	
 	public TreeNode(boolean isLeaf, boolean isRoot) {
-		this.isLeaf = isLeaf;
+		this(isLeaf);
 		this.isRoot = isRoot;
 	}
 	
-	public Object search(Comparable key) {
+	public Object search(Integer key) {
 		if(isLeaf) {
-			for(Entry<Comparable, Object> en : entries) {
+			for(Entry<Integer, Double> en : entries) {
 				//found the target value
 				if(en.getKey().compareTo(key)==0) {
 					return en.getValue();
@@ -35,11 +35,11 @@ public class TreeNode {
 			return null;
 		}
 		else {
-			if(key.compareTo(entries.get(0).getKey())<0) {
+			if(key.compareTo(entries.get(0).getKey())<=0) {
 				//smaller => go to the first node do the same thing
 				return children.get(0).search(key);
 			}
-			else if(key.compareTo(entries.get(entries.size()-1).getKey())>0) {
+			else if(key.compareTo(entries.get(entries.size()-1).getKey())>=0) {
 				//bigger => go to the last node do the same thing
 				return children.get(children.size()-1).search(key);
 			}
@@ -55,10 +55,10 @@ public class TreeNode {
 		return null;
 	}
 	
-	public List<Object> search(Comparable key1, Comparable key2) {
+	public List<Object> search(Integer key1, Integer key2) {
 		if(isLeaf) {
 			List<Object> list = new ArrayList();
-			for(Entry<Comparable, Object> en : entries) {
+			for(Entry<Integer, Double> en : entries) {
 				//found the target value
 				if(en.getKey().compareTo(key1)>=0 && en.getKey().compareTo(key2)<=0) {
 					list.add(en.getValue());
@@ -88,7 +88,7 @@ public class TreeNode {
 	}
 
 	
-	public void insertUpdate(Comparable key, Object obj, BPlusTree tree) {
+	public void insertUpdate(Integer key, Double obj, BPlusTree tree) {
 		if(isLeaf) {
 			//the case that dont need to split
 			if(contains(key) || entries.size() < tree.getOrder()) {
@@ -137,7 +137,7 @@ public class TreeNode {
 				}
 				
 				for(int i=0;i<rightSize;i++) {
-					right.getEntries().add(entries.get(i));
+					right.getEntries().add(entries.get(leftSize + i));
 				}
 				
 				//if it not the root
@@ -199,8 +199,8 @@ public class TreeNode {
 	}
 	
 	
-	public void insertUpdate(Comparable key, Object obj) {
-		Entry<Comparable, Object> entry = new SimpleEntry<Comparable, Object>(key, obj);
+	public void insertUpdate(Integer key, Double obj) {
+		Entry<Integer, Double> entry = new SimpleEntry<Integer, Double>(key, obj);
 		
 		//if the size of the list is 0, insert
 		if(entries.size()==0) {
@@ -212,7 +212,7 @@ public class TreeNode {
 		for(int i=0;i<entries.size();i++) {
 			//if the key exists, then update!
 			if(entries.get(i).getKey().compareTo(key)==0) {
-				entries.get(i).setValue(key);
+				entries.get(i).setValue(obj);
 				return;
 			}
 			//otherwise, insert
@@ -297,7 +297,7 @@ public class TreeNode {
 		//if the list of node equals children list
 		if(node.getEntries().size()==node.getChildren().size()) {
 			for(int i=0;i<node.getEntries().size();i++) {
-				Comparable key = node.getChildren().get(i).getEntries().get(0).getKey();
+				Integer key = (Integer) node.getChildren().get(i).getEntries().get(0).getKey();
 				if(node.getEntries().get(i).getKey().compareTo(key)!=0) {
 					node.getEntries().remove(i);
 					node.getEntries().add(i, new SimpleEntry(key, null));
@@ -313,7 +313,7 @@ public class TreeNode {
 				 && node.getChildren().size() <= tree.getOrder() && node.getChildren().size()>=2) {
 			node.getEntries().clear();
 			for(int i=0;i<node.getChildren().size();i++) {
-				Comparable key = node.getChildren().get(i).getEntries().get(0).getKey();
+				Integer key = node.getChildren().get(i).getEntries().get(0).getKey();
 				node.getEntries().add(new SimpleEntry(key, null));
 				if(!node.isRoot()) {
 					validate(node.getParent(), tree);
@@ -322,7 +322,7 @@ public class TreeNode {
 		}			
 	}
 	
-	public void remove(Comparable key, BPlusTree tree) {
+	public void remove(Integer key, BPlusTree tree) {
 		if(isLeaf) {
 			//if it doesnt have the key, return
 			if(!contains(key)) {
@@ -343,7 +343,7 @@ public class TreeNode {
 							&& prev.getEntries().size()>2
 							&& prev.getParent()==parent) {
 						int size = prev.getEntries().size();
-						Entry<Comparable, Object> entry = prev.getEntries().get(size - 1);
+						Entry<Integer, Double> entry = prev.getEntries().get(size - 1);
 						prev.getEntries().remove(entry);
 						//add to the first place
 						entries.add(0, entry);
@@ -354,7 +354,7 @@ public class TreeNode {
 					else if(next != null && next.getEntries().size() > tree.getOrder()/2
 							&& next.getEntries().size()>2
 							&& next.getParent()==parent) { 
-						Entry<Comparable, Object> entry = next.getEntries().get(0);
+						Entry<Integer, Double> entry = next.getEntries().get(0);
 						next.getEntries().remove(entry);
 						
 						//add to the end
@@ -436,8 +436,8 @@ public class TreeNode {
 			//otherwise, search the middle
 			else {
 				for(int i=0;i<entries.size();i++) {
-					if(entries.get(i).getKey().compareTo(key)<=0 
-							&& entries.get(i+1).getKey().compareTo(key)>0) {
+					if(entries.get(i).getKey().compareTo((Integer) key)<=0 
+							&& entries.get(i+1).getKey().compareTo((Integer) key)>0) {
 						children.get(i).remove(key, tree);
 						break;
 					}
@@ -446,7 +446,7 @@ public class TreeNode {
 		}
 	}
 	
-	public void remove(Comparable key) {
+	public void remove(Integer key) {
 		int idx = -1;
 		for(int i=0;i<entries.size();i++) {
 			if(entries.get(i).getKey().compareTo(key)==0) {
@@ -586,11 +586,11 @@ public class TreeNode {
 		this.parent = parent;
 	}
 	
-	public List<Entry<Comparable, Object>> getEntries(){
+	public List<Entry<Integer, Double>> getEntries(){
 		return entries;
 	}
 	
-	public void setEntries(List<Entry<Comparable, Object>> entries) {
+	public void setEntries(List<Entry<Integer, Double>> entries) {
 		this.entries = entries;
 	}
 	
@@ -615,8 +615,9 @@ public class TreeNode {
 		return prev;
 	}
 
-	protected boolean  contains(Comparable key) {   
-        for  (Entry<Comparable, Object> entry : entries) {  
+	protected boolean  contains(Integer key) {   
+//		System.out.println(key);
+        for  (Entry<Integer, Double> entry : entries) {  
             if  (entry.getKey().compareTo(key) ==  0 ) {  
                 return true ;   
             }  
