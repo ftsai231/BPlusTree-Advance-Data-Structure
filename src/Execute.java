@@ -58,6 +58,7 @@ public class Execute {
 				System.out.println("Delete");
 				String strDelete = str.substring(str.indexOf("(")+1,str.indexOf(")"));
 				Integer key = Integer.parseInt(strDelete);
+//				System.out.println(key);
 				tree.remove(key);
 			}
 			

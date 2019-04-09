@@ -90,7 +90,7 @@ public class TreeNode {
 	
 	public void insertUpdate(Integer key, Double obj, BPlusTree tree) {
 		if(isLeaf) {
-			//the case that dont need to split
+			//the case that don't need to split
 			if(contains(key) || entries.size() < tree.getOrder()) {
 				insertUpdate(key, obj);
 				if(parent != null) {
@@ -216,7 +216,7 @@ public class TreeNode {
 				return;
 			}
 			//otherwise, insert
-			else if(entries.get(i).getKey().compareTo(key)>0) {
+			else if(entries.get(i).getKey().compareTo(key) > 0) {
 				if(i==0) {
 					entries.add(0, entry);
 					return;
@@ -226,11 +226,9 @@ public class TreeNode {
 					return;
 				}
 			}
-			
 		}
 		//add to the end
 		entries.add(entries.size(), entry);
-		return;
 	}
 	
 	public void insertUpdate(BPlusTree tree) {
@@ -287,17 +285,18 @@ public class TreeNode {
 				parent.getChildren().add(right);
 				setEntries(null);
 				setChildren(null);
+				
 				parent.insertUpdate(tree);	
 			}
 		}
 	}
 
-	private void validate(TreeNode node, BPlusTree tree) {
+	private static void validate(TreeNode node, BPlusTree tree) {
 		// TODO Auto-generated method stub
 		//if the list of node equals children list
 		if(node.getEntries().size()==node.getChildren().size()) {
 			for(int i=0;i<node.getEntries().size();i++) {
-				Integer key = (Integer) node.getChildren().get(i).getEntries().get(0).getKey();
+				Integer key = node.getChildren().get(i).getEntries().get(0).getKey();
 				if(node.getEntries().get(i).getKey().compareTo(key)!=0) {
 					node.getEntries().remove(i);
 					node.getEntries().add(i, new SimpleEntry(key, null));
@@ -309,7 +308,7 @@ public class TreeNode {
 		}
 		
 		//if M > # of children > M/2 and # greater than 2
-		else if(node.isRoot() && node.getChildren().size()>=2 || node.getChildren().size()>=tree.getOrder()/2
+		else if(node.isRoot() && (node.getChildren().size()>=2 || node.getChildren().size()>=tree.getOrder()/2)
 				 && node.getChildren().size() <= tree.getOrder() && node.getChildren().size()>=2) {
 			node.getEntries().clear();
 			for(int i=0;i<node.getChildren().size();i++) {
@@ -352,7 +351,7 @@ public class TreeNode {
 					
 					//if #key < M/2 and #next-key > M/2
 					else if(next != null && next.getEntries().size() > tree.getOrder()/2
-							&& next.getEntries().size()>2
+							&& next.getEntries().size() > 2
 							&& next.getParent()==parent) { 
 						Entry<Integer, Double> entry = next.getEntries().get(0);
 						next.getEntries().remove(entry);
@@ -436,8 +435,8 @@ public class TreeNode {
 			//otherwise, search the middle
 			else {
 				for(int i=0;i<entries.size();i++) {
-					if(entries.get(i).getKey().compareTo((Integer) key)<=0 
-							&& entries.get(i+1).getKey().compareTo((Integer) key)>0) {
+					if(entries.get(i).getKey().compareTo(key)<=0 
+							&& entries.get(i+1).getKey().compareTo(key)>0) {
 						children.get(i).remove(key, tree);
 						break;
 					}
@@ -470,7 +469,7 @@ public class TreeNode {
 		if(children.size()<tree.getOrder()/2 || children.size()<2) {
 			if(isRoot) {
 				//if it is root and #children > 2, fine!
-				if(children.size()>2) {
+				if(children.size()>=2) {
 					return;
 				}
 				else {
@@ -497,8 +496,8 @@ public class TreeNode {
 				}
 				
 				//if #prev.children > M/2 and > 2, borrow
-				if(prev!=null && prev.getChildren().size()>tree.getOrder()/2
-						&& prev.getChildren().size()>2) {
+				if(prev!=null && prev.getChildren().size() > tree.getOrder()/2
+						&& prev.getChildren().size() > 2) {
 					//last sub-node of the next node moving to this node
 					int idx = prev.getChildren().size() - 1;
 					TreeNode borrow = prev.getChildren().get(idx);
@@ -615,7 +614,7 @@ public class TreeNode {
 		return prev;
 	}
 
-	protected boolean  contains(Integer key) {   
+	public boolean contains(Integer key) {   
 //		System.out.println(key);
         for  (Entry<Integer, Double> entry : entries) {  
             if  (entry.getKey().compareTo(key) ==  0 ) {  
