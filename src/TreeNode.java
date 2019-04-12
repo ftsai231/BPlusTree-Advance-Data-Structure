@@ -562,7 +562,7 @@ public class TreeNode {
 	
 	
 	public void  setRoot( boolean  isRoot) {   
-        this .isRoot = isRoot;  
+        this.isRoot = isRoot;  
     }  
 
 	private boolean isRoot() {
