@@ -91,7 +91,7 @@ public class TreeNode {
 	public void insertUpdate(Integer key, Double obj, BPlusTree tree) {
 		if(isLeaf) {
 			//the case that don't need to split
-			if(contains(key) || entries.size() < tree.getOrder()) {
+			if(contains(key) || entries.size() <= tree.getOrder()) {
 				insertUpdate(key, obj);
 				if(parent != null) {
 					//update parent node
@@ -615,7 +615,6 @@ public class TreeNode {
 	}
 
 	public boolean contains(Integer key) {   
-//		System.out.println(key);
         for  (Entry<Integer, Double> entry : entries) {  
             if  (entry.getKey().compareTo(key) ==  0 ) {  
                 return true ;   

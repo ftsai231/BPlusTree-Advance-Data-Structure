@@ -23,6 +23,7 @@ public class Execute {
 		m = Integer.parseInt(str.trim());
 		tree = new BPlusTree(m);
 		while((str = br.readLine()) != null) {
+			
 			//search(key)
 			if(str.startsWith("Search") && !str.contains(",")) {
 				Integer key;
