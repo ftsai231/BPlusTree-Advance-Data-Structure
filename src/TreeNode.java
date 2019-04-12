@@ -457,10 +457,6 @@ public class TreeNode {
 			entries.remove(idx);
 		}
 	}
-	
-	
-	
-	
 
 	public void removeUpdate(BPlusTree tree) {
 		validate(this, tree);

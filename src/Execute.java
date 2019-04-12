@@ -11,7 +11,7 @@ public class Execute {
 	public static void main(String[] args) throws IOException {
 		// TODO Auto-generated method stub
 		StringBuilder sb = new StringBuilder();
-		File reader = new File("./" + args[0]);
+		File reader = new File("./src/" + args[0]);
 		BufferedReader br = new BufferedReader(new FileReader(reader));
 		File writer = new File("./output_file.txt");
 //		BufferedWriter wr = new BufferedWriter(new FileWriter(writer));
@@ -78,7 +78,5 @@ public class Execute {
 				}
 			}
 		}
-		
 	}
-
 }
