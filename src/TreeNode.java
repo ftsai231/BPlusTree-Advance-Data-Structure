@@ -45,7 +45,7 @@ public class TreeNode {
 			}
 			else {
 				for(int i=0;i<entries.size();i++) {
-					if(entries.get(i).getKey().compareTo(key)<=0 && entries.get(i+1).getKey().compareTo(key)>0) {
+					if(entries.get(i).getKey().compareTo(key)<=0 && entries.get(i+1).getKey().compareTo(key)>=0) {
 						return children.get(i).search(key);
 					}
 					return children.get(i).search(key);
@@ -561,22 +561,22 @@ public class TreeNode {
         this.isRoot = isRoot;  
     }  
 
-	private boolean isRoot() {
+	public boolean isRoot() {
 		// TODO Auto-generated method stub
 		return isRoot;
 	}
 
-	private TreeNode getParent() {
+	public TreeNode getParent() {
 		// TODO Auto-generated method stub
 		return parent;
 	}
 
-	private List<TreeNode> getChildren() {
+	public List<TreeNode> getChildren() {
 		// TODO Auto-generated method stub
 		return children;
 	}
 	
-	private void setParent(TreeNode parent) {
+	public void setParent(TreeNode parent) {
 		// TODO Auto-generated method stub
 		this.parent = parent;
 	}
@@ -589,7 +589,7 @@ public class TreeNode {
 		this.entries = entries;
 	}
 	
-	private void setChildren(List<TreeNode> children) {
+	public void setChildren(List<TreeNode> children) {
 		// TODO Auto-generated method stub
 		this.children = children;
 	}
