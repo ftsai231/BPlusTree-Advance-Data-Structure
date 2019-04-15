@@ -55,6 +55,7 @@ public class TreeNode {
 		return null;
 	}
 	
+	//this part has bug
 	public List<Object> search(Integer key1, Integer key2) {
 		if(isLeaf) {
 			List<Object> list = new ArrayList();
@@ -91,7 +92,7 @@ public class TreeNode {
 	public void insertUpdate(Integer key, Double obj, BPlusTree tree) {
 		if(isLeaf) {
 			//the case that don't need to split
-			if(contains(key) || entries.size() <= tree.getOrder()) {
+			if(contains(key) || entries.size() < tree.getOrder()) {
 				insertUpdate(key, obj);
 				if(parent != null) {
 					//update parent node
@@ -153,6 +154,8 @@ public class TreeNode {
 					//otherwise, it will only have key (maybe)
 					setEntries(null);
 					setChildren(null);
+					parent.insertUpdate(tree);  
+                    setParent(null);  
 				}
 				else {
 					isRoot = false;

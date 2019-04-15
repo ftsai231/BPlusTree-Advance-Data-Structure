@@ -44,8 +44,9 @@ public class BPlusTree {
 		root.remove(key, this);
 	}
 	
+	
 	public void insertUpdate(Integer key, Double obj) {
-		root.insertUpdate(key, obj, this);
+			root.insertUpdate(key, obj, this);
 	}
 	
 	public BPlusTree(int order) {
